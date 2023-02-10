@@ -37,10 +37,12 @@ BETWEEN 500 AND 1000;
 
 
 6.	Show the average star rating for companies in each state. The output should show the state as `state` and the average rating for the state as `avg_rating`. Which state shows the highest average rating?
-SELECT COUNT AVG (rating) AS avg_rating AND COUNT (state) as count_state 
+SELECT ROUND(avg(star_rating),2) AS avg_rating, location AS state
 FROM data_analyst_jobs
-WHERE rating AND states
+GROUP BY data_analyst_jobs.location
+-NE shows highest rating, 4.20
 
+ 
 7.	Select unique job titles from the data_analyst_jobs table. How many are there?
 SELECT COUNT (DISTINCT title) AS count_distinct_job_titles
 FROM data_analyst_jobs;
@@ -53,27 +55,32 @@ WHERE location = 'CA';
 -230
 
 9.	Find the name of each company and its average star rating for all companies that have more than 5000 reviews across all locations. How many companies are there with more that 5000 reviews across all locations?
-SELECT AVG(star_rating)
+SELECT ROUND(AVG(star_rating),2)
 FROM data_analyst_jobs
 WHERE review_count > 5000;
--3.9075675241135135
+-3.91
 SELECT COUNT(company)
 FROM data_analyst_jobs
 WHERE review_count>5000;
 -552
 10.	Add the code to order the query in #9 from highest to lowest average star rating. Which company with more than 5000 reviews across all locations in the dataset has the highest star rating? What is that rating?
-SELECT AVG(star_rating)
+SELECT ROUND(AVG(star_rating),2)
 FROM data_analyst_jobs
 WHERE review_count>5000
 ORDER BY AVG(star_rating) DESC;
--3.9075675241135135
+-3.91
 11.	Find all the job titles that contain the word â€˜Analystâ€™. How many different job titles are there? 
-SELECT COUNT (*)
+SELECT COUNT (title)
 FROM data_analyst_jobs
-WHERE title = 'analyst' or title = 'analytics';
+WHERE title = 'analyst' 
+AND title = 'analytics';
 -0
 12.	How many different job titles do not contain either the word â€˜Analystâ€™ or the word â€˜Analyticsâ€™? What word do these positions have in common?
-
+SELECT COUNT (title)
+FROM data_analyst_jobs
+WHERE title != 'analyst'
+AND title != 'analytics'
+-5379
 **BONUS:**
 You want to understand which jobs requiring SQL are hard to fill. Find the number of jobs by industry (domain) that require SQL and have been posted longer than 3 weeks. 
  - Disregard any postings where the domain is NULL. 
